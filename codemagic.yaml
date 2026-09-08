@@ -1,1 +1,31 @@
-workflows:\n  android-workflow:\n    name: Android Workflow\n    instance_type: mac_mini_m1\n    max_build_duration: 120\n    environment:\n      android_sdk: flutter\n      java: java11\n    triggering:\n      events:\n        - push\n      branch_patterns:\n        - pattern: main\n          include: true\n    scripts:\n      - name: Set up local.properties\n        script: |\n          echo \"sdk.dir=$ANDROID_SDK_ROOT\" > local.properties\n      - name: Build APK\n        script: |\n          chmod +x ./gradlew\n          ./gradlew assembleRelease\n    artifacts:\n      - app/build/outputs/apk/release/**/*.apk\n    publishing:\n      email:\n        recipients:\n          - prashantgure0@gmail.com\n        notify:\n          success: true\n          failure: true\n"
+workflows:
+  android-workflow:
+    name: Android Workflow
+    instance_type: mac_mini_m1
+    max_build_duration: 120
+    environment:
+      android_sdk: flutter
+      java: java11
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+    scripts:
+      - name: Set up local.properties
+        script: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+      - name: Build APK
+        script: |
+          chmod +x ./gradlew
+          ./gradlew assembleRelease
+    artifacts:
+      - app/build/outputs/apk/release/**/*.apk
+    publishing:
+      email:
+        recipients:
+          - prashantgure0@gmail.com
+        notify:
+          success: true
+          failure: true
